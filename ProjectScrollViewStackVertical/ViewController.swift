@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UIScrollViewDelegate {
 
     var scrollView : UIScrollView!
     var stackView : UIStackView!
@@ -21,7 +21,10 @@ class ViewController: UIViewController {
         scrollView = UIScrollView()
         scrollView.alwaysBounceVertical = true
         scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.delegate = self
         view.addSubview(scrollView)
+        navigationItem.backBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: nil)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
         
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -54,7 +57,7 @@ class ViewController: UIViewController {
             let label = UILabel()
             label.translatesAutoresizingMaskIntoConstraints = false
             label.text = "Name:"
-            label.textAlignment = .right
+            label.textAlignment = .center
             let textField = UITextField()
             textField.backgroundColor = .systemGray4
             textField.translatesAutoresizingMaskIntoConstraints = false
@@ -85,7 +88,19 @@ class ViewController: UIViewController {
         }
     }
     
-
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        print(scrollView.contentOffset.y)
+        var offset = scrollView.contentOffset.y / 150
+        
+        if offset > 1 {
+            offset = 1
+            self.navigationController?.navigationBar.tintColor = UIColor(hue: 1, saturation: offset, brightness: 1, alpha: 1)
+        } else {
+            self.navigationController?.navigationBar.tintColor = UIColor(hue: 1, saturation: offset, brightness: 1, alpha: 1)
+        }
+        
+        
+    }
 
 }
 
